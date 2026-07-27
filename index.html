@@ -77,17 +77,15 @@
       margin-bottom: 6px;
     }
 
-    .fixed-value {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 20px;
+    .fixed-points {
+      font-size: 28px;
+      font-weight: 700;
+      color: #60a5fa; /* Celeste azul */
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
     }
 
-    input[type="number"] {
+    input[type="text"] {
       width: 100%;
       background: #1a1a1a;
       border: 1px solid #333;
@@ -100,7 +98,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="number"]:focus {
+    input[type="text"]:focus {
       border-color: #00d4aa;
     }
 
@@ -134,13 +132,13 @@
       font-weight: 600;
     }
 
-    /* Resultados */
+    /* Resultados principales */
     .main-result {
       background: #0f0f0f;
       border-radius: 16px;
       padding: 30px 20px;
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .main-result-label {
@@ -155,14 +153,34 @@
       font-size: 42px;
       font-weight: 700;
       color: #00d4aa;
-      margin-bottom: 20px;
+    }
+
+    .point-result {
+      background: #0f0f0f;
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .point-result-label {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .point-result-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #60a5fa;
     }
 
     .details {
       display: flex;
       justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
+      gap: 40px;
+      margin-top: 16px;
       font-size: 14px;
       color: #aaa;
     }
@@ -178,44 +196,49 @@
     }
 
     .detail-value {
-      font-size: 16px;
+      font-size: 15px;
       color: #fff;
       font-weight: 500;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 13px;
+    /* Escenarios */
+    .scenarios {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    th {
-      text-align: left;
-      padding: 10px 8px;
-      color: #888;
-      font-weight: 500;
-      border-bottom: 1px solid #222;
+    .scenario {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #1a1a1a;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .highlight {
-      color: #00d4aa;
+    .scenario-name {
       font-weight: 600;
+    }
+
+    .scenario-bear { color: #f87171; }
+    .scenario-normal { color: #fbbf24; }
+    .scenario-bull { color: #4ade80; }
+
+    .scenario-info {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .scenario-value {
+      font-weight: 600;
+      color: #fff;
     }
 
     .formula {
       font-size: 12px;
       color: #666;
-      margin-top: 20px;
+      margin-top: 24px;
       text-align: center;
     }
   </style>
@@ -230,13 +253,11 @@
       <div class="card">
         <div class="card-title">Configuración</div>
 
-        <!-- Tus puntos arriba -->
         <label>Tus puntos</label>
-        <input type="number" id="yourPoints" value="0" oninput="calculate()" placeholder="Ingresá tus puntos">
+        <input type="text" id="yourPoints" placeholder="0" oninput="formatAndCalculate(this)">
 
-        <!-- Total de puntos fijo -->
         <label>Total de puntos (52 semanas)</label>
-        <div class="fixed-value">3.000.000</div>
+        <div class="fixed-points">3.000.000</div>
 
         <label>Airdrop % del supply</label>
         <div class="btn-group" id="airdropGroup">
@@ -260,16 +281,12 @@
       <div class="card">
         <div class="card-title">Resultados</div>
 
-        <!-- Valor estimado grande y centrado -->
+        <!-- Valor estimado grande -->
         <div class="main-result">
           <div class="main-result-label">Valor estimado del Airdrop</div>
-          <div class="main-result-value" id="yourValue">$0.00</div>
+          <div class="main-result-value" id="yourValue">$0</div>
 
           <div class="details">
-            <div class="detail-item">
-              <div class="detail-label">Valor del punto</div>
-              <div class="detail-value" id="pointPrice">$0.00</div>
-            </div>
             <div class="detail-item">
               <div class="detail-label">FDV seleccionado</div>
               <div class="detail-value" id="selectedFDV">$100M</div>
@@ -281,20 +298,39 @@
           </div>
         </div>
 
-        <div class="card-title">Tabla de escenarios</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Airdrop %</th>
-              <th>$100M</th>
-              <th>$300M</th>
-              <th>$500M</th>
-              <th>$800M</th>
-              <th>$1B</th>
-            </tr>
-          </thead>
-          <tbody id="scenarioTable"></tbody>
-        </table>
+        <!-- Valor del punto -->
+        <div class="point-result">
+          <div class="point-result-label">Valor del punto</div>
+          <div class="point-result-value" id="pointPrice">$0.00</div>
+        </div>
+
+        <!-- Escenarios -->
+        <div class="card-title">Escenarios</div>
+        <div class="scenarios">
+          <div class="scenario">
+            <div>
+              <div class="scenario-name scenario-bear">Bear FUD</div>
+              <div class="scenario-info">10% Airdrop · $100M FDV</div>
+            </div>
+            <div class="scenario-value" id="bearValue">$0</div>
+          </div>
+
+          <div class="scenario">
+            <div>
+              <div class="scenario-name scenario-normal">Normal</div>
+              <div class="scenario-info">15% Airdrop · $300M FDV</div>
+            </div>
+            <div class="scenario-value" id="normalValue">$0</div>
+          </div>
+
+          <div class="scenario">
+            <div>
+              <div class="scenario-name scenario-bull">Bull FOMO</div>
+              <div class="scenario-info">20% Airdrop · $500M FDV</div>
+            </div>
+            <div class="scenario-value" id="bullValue">$0</div>
+          </div>
+        </div>
 
         <p class="formula">
           Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
@@ -308,6 +344,30 @@
     let airdropPct = 10;
     let fdv = 100;
     const totalPoints = 3000000;
+
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function formatMoney(num, decimals = false) {
+      if (decimals) {
+        return '$' + num.toFixed(4).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      return '$' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function formatAndCalculate(input) {
+      // Sacar todo lo que no sea número
+      let value = input.value.replace(/\D/g, '');
+      if (value === '') {
+        input.value = '';
+        calculate();
+        return;
+      }
+      // Formatear con puntos de mil
+      input.value = formatNumber(value);
+      calculate();
+    }
 
     function setAirdrop(pct) {
       airdropPct = pct;
@@ -327,38 +387,29 @@
       calculate();
     }
 
-    function formatMoney(num) {
-      if (num >= 1) return '$' + num.toFixed(2);
-      if (num >= 0.01) return '$' + num.toFixed(4);
-      return '$' + num.toFixed(6);
-    }
-
     function calculate() {
-      const yourPoints = parseFloat(document.getElementById('yourPoints').value) || 0;
+      const rawPoints = document.getElementById('yourPoints').value.replace(/\./g, '');
+      const yourPoints = parseFloat(rawPoints) || 0;
 
       const fdvDollars = fdv * 1_000_000;
       const airdropValue = fdvDollars * (airdropPct / 100);
       const pointPrice = airdropValue / totalPoints;
       const yourAirdropValue = yourPoints * pointPrice;
 
-      document.getElementById('pointPrice').textContent = formatMoney(pointPrice);
+      // Valor principal (sin decimales + separador de mil)
       document.getElementById('yourValue').textContent = formatMoney(yourAirdropValue);
 
-      // Tabla de escenarios
-      const scenarios = [10, 15, 20, 25];
-      const fdvs = [100, 300, 500, 800, 1000];
-      let html = '';
+      // Valor del punto
+      document.getElementById('pointPrice').textContent = formatMoney(pointPrice, true);
 
-      scenarios.forEach(pct => {
-        html += `<tr><td class="highlight">${pct}%</td>`;
-        fdvs.forEach(f => {
-          const price = (f * 1_000_000 * (pct / 100)) / totalPoints;
-          html += `<td>${formatMoney(price)}</td>`;
-        });
-        html += `</tr>`;
-      });
+      // Escenarios fijos
+      const bearPrice = (100 * 1_000_000 * 0.10) / totalPoints;
+      const normalPrice = (300 * 1_000_000 * 0.15) / totalPoints;
+      const bullPrice = (500 * 1_000_000 * 0.20) / totalPoints;
 
-      document.getElementById('scenarioTable').innerHTML = html;
+      document.getElementById('bearValue').textContent = formatMoney(yourPoints * bearPrice);
+      document.getElementById('normalValue').textContent = formatMoney(yourPoints * normalPrice);
+      document.getElementById('bullValue').textContent = formatMoney(yourPoints * bullPrice);
     }
 
     // Inicializar
