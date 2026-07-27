@@ -78,10 +78,10 @@
     }
 
     .fixed-points {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
-      color: #60a5fa; /* Celeste azul */
-      margin-bottom: 24px;
+      color: #60a5fa;
+      margin-bottom: 22px;
       letter-spacing: 0.5px;
     }
 
@@ -157,23 +157,24 @@
 
     .point-result {
       background: #0f0f0f;
-      border-radius: 16px;
-      padding: 24px 20px;
+      border-radius: 12px;
+      padding: 16px 20px;
       text-align: center;
       margin-bottom: 24px;
     }
 
     .point-result-label {
-      font-size: 13px;
+      font-size: 12px;
       color: #888;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .point-result-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: #60a5fa;
+      font-size: 22px;
+      font-weight: 600;
+      color: #e5e5e5;
     }
 
     .details {
@@ -219,15 +220,13 @@
 
     .scenario-name {
       font-weight: 600;
+      color: #e5e5e5;
     }
-
-    .scenario-bear { color: #f87171; }
-    .scenario-normal { color: #fbbf24; }
-    .scenario-bull { color: #4ade80; }
 
     .scenario-info {
       font-size: 13px;
       color: #888;
+      margin-top: 2px;
     }
 
     .scenario-value {
@@ -253,11 +252,13 @@
       <div class="card">
         <div class="card-title">Configuración</div>
 
-        <label>Tus puntos</label>
-        <input type="text" id="yourPoints" placeholder="0" oninput="formatAndCalculate(this)">
-
+        <!-- Total de puntos arriba -->
         <label>Total de puntos (52 semanas)</label>
         <div class="fixed-points">3.000.000</div>
+
+        <!-- Tus puntos -->
+        <label>Tus puntos</label>
+        <input type="text" id="yourPoints" placeholder="0" oninput="formatAndCalculate(this)">
 
         <label>Airdrop % del supply</label>
         <div class="btn-group" id="airdropGroup">
@@ -298,7 +299,7 @@
           </div>
         </div>
 
-        <!-- Valor del punto -->
+        <!-- Valor del punto (más chico) -->
         <div class="point-result">
           <div class="point-result-label">Valor del punto</div>
           <div class="point-result-value" id="pointPrice">$0.00</div>
@@ -309,7 +310,7 @@
         <div class="scenarios">
           <div class="scenario">
             <div>
-              <div class="scenario-name scenario-bear">Bear FUD</div>
+              <div class="scenario-name">Bear FUD</div>
               <div class="scenario-info">10% Airdrop · $100M FDV</div>
             </div>
             <div class="scenario-value" id="bearValue">$0</div>
@@ -317,7 +318,7 @@
 
           <div class="scenario">
             <div>
-              <div class="scenario-name scenario-normal">Normal</div>
+              <div class="scenario-name">Normal</div>
               <div class="scenario-info">15% Airdrop · $300M FDV</div>
             </div>
             <div class="scenario-value" id="normalValue">$0</div>
@@ -325,7 +326,7 @@
 
           <div class="scenario">
             <div>
-              <div class="scenario-name scenario-bull">Bull FOMO</div>
+              <div class="scenario-name">Bull FOMO</div>
               <div class="scenario-info">20% Airdrop · $500M FDV</div>
             </div>
             <div class="scenario-value" id="bullValue">$0</div>
@@ -349,22 +350,17 @@
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    function formatMoney(num, decimals = false) {
-      if (decimals) {
-        return '$' + num.toFixed(4).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
+    function formatMoney(num) {
       return '$' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     function formatAndCalculate(input) {
-      // Sacar todo lo que no sea número
       let value = input.value.replace(/\D/g, '');
       if (value === '') {
         input.value = '';
         calculate();
         return;
       }
-      // Formatear con puntos de mil
       input.value = formatNumber(value);
       calculate();
     }
@@ -396,13 +392,13 @@
       const pointPrice = airdropValue / totalPoints;
       const yourAirdropValue = yourPoints * pointPrice;
 
-      // Valor principal (sin decimales + separador de mil)
+      // Valor estimado (sin decimales)
       document.getElementById('yourValue').textContent = formatMoney(yourAirdropValue);
 
-      // Valor del punto
-      document.getElementById('pointPrice').textContent = formatMoney(pointPrice, true);
+      // Valor del punto → solo 2 decimales, sin separador de mil
+      document.getElementById('pointPrice').textContent = '$' + pointPrice.toFixed(2);
 
-      // Escenarios fijos
+      // Escenarios
       const bearPrice = (100 * 1_000_000 * 0.10) / totalPoints;
       const normalPrice = (300 * 1_000_000 * 0.15) / totalPoints;
       const bullPrice = (500 * 1_000_000 * 0.20) / totalPoints;
@@ -412,7 +408,6 @@
       document.getElementById('bullValue').textContent = formatMoney(yourPoints * bullPrice);
     }
 
-    // Inicializar
     calculate();
   </script>
 </body>
