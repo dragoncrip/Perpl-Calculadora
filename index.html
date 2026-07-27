@@ -27,6 +27,27 @@
       width: 100%;
     }
 
+    /* Header con logos */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-perpl {
+      height: 42px;
+      width: auto;
+    }
+
+    .logo-dc {
+      height: 42px;
+      width: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #333;
+    }
+
     h1 {
       text-align: center;
       font-size: 42px;
@@ -38,7 +59,7 @@
 
     .register-boost {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 18px;
       font-size: 15px;
     }
 
@@ -49,6 +70,25 @@
     }
 
     .register-boost a:hover {
+      text-decoration: underline;
+    }
+
+    /* Texto de farmear centrado en 2 líneas */
+    .farm-promo {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    .farm-promo a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .farm-promo a:hover {
       text-decoration: underline;
     }
 
@@ -64,6 +104,13 @@
       }
       h1 {
         font-size: 32px;
+      }
+      .logo-perpl {
+        height: 34px;
+      }
+      .logo-dc {
+        height: 34px;
+        width: 34px;
       }
     }
 
@@ -243,16 +290,6 @@
       border-radius: 12px;
     }
 
-    .formula a {
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .formula a:hover {
-      text-decoration: underline;
-    }
-
     .footer {
       margin-top: 40px;
       text-align: center;
@@ -273,11 +310,24 @@
 </head>
 <body>
   <div class="container">
+
+    <!-- Header con logos -->
+    <div class="header">
+      <img src="Perpl_Logo_Primary_Black.svg" alt="Perpl Logo" class="logo-perpl">
+      <img src="Logo_DC.jpg" alt="DragonCrip" class="logo-dc">
+    </div>
+
     <h1>PERPL Points<br>Airdrop Calculator</h1>
     
     <p class="register-boost">
       ⭐ <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">Register for +5% extra boost</a>
     </p>
+
+    <!-- Texto de farmear centrado en 2 líneas (sacado del recuadro) -->
+    <div class="farm-promo">
+      No tenes cuenta en Perpl?<br>
+      <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">comenza a farmear ahora +5% extra boost</a>
+    </div>
 
     <div class="main">
       <!-- LEFT: INPUTS -->
@@ -307,10 +357,10 @@
           <button class="btn" onclick="setFDV(1000)">$1B</button>
         </div>
 
+        <!-- Solo la fórmula, sin el texto de farmear -->
         <div class="formula">
           Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
-          Tu valor = Tus puntos × Precio del punto<br><br>
-          No tenes cuenta en Perpl? <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">comenza a farmear ahora +5% extra boost</a>
+          Tu valor = Tus puntos × Precio del punto
         </div>
       </div>
 
@@ -318,7 +368,6 @@
       <div class="card">
         <div class="card-title">Resultados</div>
 
-        <!-- Caja principal con Valor estimado + Valor del punto dentro -->
         <div class="main-result">
           <div class="main-result-label">Valor estimado del Airdrop</div>
           <div class="main-result-value" id="yourValue">$0</div>
@@ -339,7 +388,6 @@
           </div>
         </div>
 
-        <!-- Escenarios -->
         <div class="card-title">Escenarios</div>
         <div class="scenarios">
           <div class="scenario">
