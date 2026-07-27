@@ -72,9 +72,10 @@
 
     label {
       display: block;
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e5e5e5;
+      margin-bottom: 8px;
     }
 
     .fixed-points {
@@ -138,7 +139,7 @@
       border-radius: 16px;
       padding: 30px 20px;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .main-result-label {
@@ -153,35 +154,14 @@
       font-size: 42px;
       font-weight: 700;
       color: #60a5fa;
-    }
-
-    .point-result {
-      background: #0f0f0f;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .point-result-label {
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .point-result-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: #60a5fa;
+      margin-bottom: 20px;
     }
 
     .details {
       display: flex;
       justify-content: center;
       gap: 40px;
-      margin-top: 16px;
+      flex-wrap: wrap;
       font-size: 14px;
       color: #aaa;
     }
@@ -197,9 +177,15 @@
     }
 
     .detail-value {
-      font-size: 15px;
+      font-size: 16px;
       color: #fff;
       font-weight: 500;
+    }
+
+    .detail-value.highlight {
+      color: #60a5fa;
+      font-weight: 600;
+      font-size: 18px;
     }
 
     /* Escenarios */
@@ -278,7 +264,6 @@
           <button class="btn" onclick="setFDV(1000)">$1B</button>
         </div>
 
-        <!-- Fórmula movida a la izquierda -->
         <div class="formula">
           Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
           Tu valor = Tus puntos × Precio del punto
@@ -289,12 +274,16 @@
       <div class="card">
         <div class="card-title">Resultados</div>
 
-        <!-- Valor estimado grande -->
+        <!-- Caja principal con Valor estimado + Valor del punto dentro -->
         <div class="main-result">
           <div class="main-result-label">Valor estimado del Airdrop</div>
           <div class="main-result-value" id="yourValue">$0</div>
 
           <div class="details">
+            <div class="detail-item">
+              <div class="detail-label">Valor del punto</div>
+              <div class="detail-value highlight" id="pointPrice">$0.00</div>
+            </div>
             <div class="detail-item">
               <div class="detail-label">FDV seleccionado</div>
               <div class="detail-value" id="selectedFDV">$100M</div>
@@ -304,12 +293,6 @@
               <div class="detail-value" id="selectedAirdrop">10%</div>
             </div>
           </div>
-        </div>
-
-        <!-- Valor del punto (como estaba antes) -->
-        <div class="point-result">
-          <div class="point-result-label">Valor del punto</div>
-          <div class="point-result-value" id="pointPrice">$0.00</div>
         </div>
 
         <!-- Escenarios -->
