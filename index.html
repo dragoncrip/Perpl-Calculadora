@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +38,8 @@
     .logo-perpl {
       height: 42px;
       width: auto;
-      filter: brightness(0) invert(1); /* convierte el logo negro a blanco */
+      /* Colorea el logo negro al celeste #60a5fa */
+      filter: brightness(0) saturate(100%) invert(64%) sepia(48%) saturate(1475%) hue-rotate(184deg) brightness(101%) contrast(96%);
     }
 
     .logo-dc {
@@ -275,7 +276,7 @@
       background: #1a1a1a;
       padding: 16px;
       border-radius: 12px;
-      text-align: center; /* centrado */
+      text-align: center;
     }
 
     .formula a {
@@ -333,15 +334,15 @@
     <div class="main">
       <!-- LEFT: INPUTS -->
       <div class="card">
-        <div class="card-title">Configuración</div>
+        <div class="card-title">Configuration</div>
 
-        <label>Total de puntos (52 semanas)</label>
-        <div class="fixed-points">3.000.000</div>
+        <label>Total points (52 weeks)</label>
+        <div class="fixed-points">3,000,000</div>
 
-        <label>Tus puntos</label>
+        <label>Your points</label>
         <input type="text" id="yourPoints" placeholder="0" oninput="formatAndCalculate(this)">
 
-        <label>Airdrop % del supply</label>
+        <label>Airdrop % of supply</label>
         <div class="btn-group" id="airdropGroup">
           <button class="btn active" onclick="setAirdrop(10)">10%</button>
           <button class="btn" onclick="setAirdrop(15)">15%</button>
@@ -358,33 +359,33 @@
           <button class="btn" onclick="setFDV(1000)">$1B</button>
         </div>
 
-        <!-- Fórmula centrada + texto de farmear debajo -->
+        <!-- Formula centered + farm text below -->
         <div class="formula">
-          Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
-          Tu valor = Tus puntos × Precio del punto
+          Point price = (FDV × Airdrop %) ÷ 3,000,000<br>
+          Your value = Your points × Point price
           
           <div class="farm-text">
-            No tenes cuenta en Perpl?<br>
-            <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">comenza a farmear ahora +5% extra boost</a>
+            Don't have a Perpl account?<br>
+            <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">Start farming now +5% extra boost</a>
           </div>
         </div>
       </div>
 
       <!-- RIGHT: RESULTS -->
       <div class="card">
-        <div class="card-title">Resultados</div>
+        <div class="card-title">Results</div>
 
         <div class="main-result">
-          <div class="main-result-label">Valor estimado del Airdrop</div>
+          <div class="main-result-label">Estimated Airdrop Value</div>
           <div class="main-result-value" id="yourValue">$0</div>
 
           <div class="details">
             <div class="detail-item">
-              <div class="detail-label">Valor del punto</div>
+              <div class="detail-label">Point value</div>
               <div class="detail-value highlight" id="pointPrice">$0.00</div>
             </div>
             <div class="detail-item">
-              <div class="detail-label">FDV seleccionado</div>
+              <div class="detail-label">Selected FDV</div>
               <div class="detail-value" id="selectedFDV">$100M</div>
             </div>
             <div class="detail-item">
@@ -394,7 +395,7 @@
           </div>
         </div>
 
-        <div class="card-title">Escenarios</div>
+        <div class="card-title">Scenarios</div>
         <div class="scenarios">
           <div class="scenario">
             <div>
@@ -435,11 +436,11 @@
     const totalPoints = 3000000;
 
     function formatNumber(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function formatMoney(num) {
-      return '$' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return '$' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function formatAndCalculate(input) {
@@ -472,7 +473,7 @@
     }
 
     function calculate() {
-      const rawPoints = document.getElementById('yourPoints').value.replace(/\./g, '');
+      const rawPoints = document.getElementById('yourPoints').value.replace(/,/g, '');
       const yourPoints = parseFloat(rawPoints) || 0;
 
       const fdvDollars = fdv * 1_000_000;
