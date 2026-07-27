@@ -77,6 +77,16 @@
       margin-bottom: 6px;
     }
 
+    .fixed-value {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
     input[type="number"] {
       width: 100%;
       background: #1a1a1a;
@@ -87,6 +97,7 @@
       font-size: 16px;
       outline: none;
       transition: border 0.2s;
+      margin-bottom: 20px;
     }
 
     input[type="number"]:focus {
@@ -123,28 +134,53 @@
       font-weight: 600;
     }
 
-    .result-box {
+    /* Resultados */
+    .main-result {
       background: #0f0f0f;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 16px;
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    .result-label {
-      font-size: 13px;
+    .main-result-label {
+      font-size: 14px;
       color: #888;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .main-result-value {
+      font-size: 42px;
+      font-weight: 700;
+      color: #00d4aa;
+      margin-bottom: 20px;
+    }
+
+    .details {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .detail-item {
+      text-align: center;
+    }
+
+    .detail-label {
+      font-size: 12px;
+      color: #666;
       margin-bottom: 4px;
     }
 
-    .result-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: #00d4aa;
-    }
-
-    .result-value.secondary {
-      font-size: 22px;
+    .detail-value {
+      font-size: 16px;
       color: #fff;
+      font-weight: 500;
     }
 
     table {
@@ -194,47 +230,58 @@
       <div class="card">
         <div class="card-title">Configuración</div>
 
-        <label>Total de puntos (52 semanas)</label>
-        <input type="number" id="totalPoints" value="3000000" oninput="calculate()">
+        <!-- Tus puntos arriba -->
+        <label>Tus puntos</label>
+        <input type="number" id="yourPoints" value="0" oninput="calculate()" placeholder="Ingresá tus puntos">
 
-        <br><br>
+        <!-- Total de puntos fijo -->
+        <label>Total de puntos (52 semanas)</label>
+        <div class="fixed-value">3.000.000</div>
 
         <label>Airdrop % del supply</label>
         <div class="btn-group" id="airdropGroup">
-          <button class="btn" onclick="setAirdrop(10)">10%</button>
-          <button class="btn active" onclick="setAirdrop(15)">15%</button>
+          <button class="btn active" onclick="setAirdrop(10)">10%</button>
+          <button class="btn" onclick="setAirdrop(15)">15%</button>
           <button class="btn" onclick="setAirdrop(20)">20%</button>
           <button class="btn" onclick="setAirdrop(25)">25%</button>
         </div>
 
         <label>FDV (Fully Diluted Valuation)</label>
         <div class="btn-group" id="fdvGroup">
-          <button class="btn" onclick="setFDV(100)">$100M</button>
-          <button class="btn active" onclick="setFDV(300)">$300M</button>
+          <button class="btn active" onclick="setFDV(100)">$100M</button>
+          <button class="btn" onclick="setFDV(300)">$300M</button>
           <button class="btn" onclick="setFDV(500)">$500M</button>
           <button class="btn" onclick="setFDV(800)">$800M</button>
           <button class="btn" onclick="setFDV(1000)">$1B</button>
         </div>
-
-        <label>Tus puntos</label>
-        <input type="number" id="yourPoints" value="0" oninput="calculate()" placeholder="Ingresá tus puntos">
       </div>
 
       <!-- RIGHT: RESULTS -->
       <div class="card">
         <div class="card-title">Resultados</div>
 
-        <div class="result-box">
-          <div class="result-label">Precio por punto</div>
-          <div class="result-value" id="pointPrice">$0.00</div>
+        <!-- Valor estimado grande y centrado -->
+        <div class="main-result">
+          <div class="main-result-label">Valor estimado del Airdrop</div>
+          <div class="main-result-value" id="yourValue">$0.00</div>
+
+          <div class="details">
+            <div class="detail-item">
+              <div class="detail-label">Valor del punto</div>
+              <div class="detail-value" id="pointPrice">$0.00</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">FDV seleccionado</div>
+              <div class="detail-value" id="selectedFDV">$100M</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Airdrop %</div>
+              <div class="detail-value" id="selectedAirdrop">10%</div>
+            </div>
+          </div>
         </div>
 
-        <div class="result-box">
-          <div class="result-label">Valor estimado de tu airdrop</div>
-          <div class="result-value secondary" id="yourValue">$0.00</div>
-        </div>
-
-        <div class="card-title" style="margin-top: 20px;">Tabla de escenarios</div>
+        <div class="card-title">Tabla de escenarios</div>
         <table>
           <thead>
             <tr>
@@ -250,7 +297,7 @@
         </table>
 
         <p class="formula">
-          Precio del punto = (FDV × Airdrop %) ÷ Total Points<br>
+          Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
           Tu valor = Tus puntos × Precio del punto
         </p>
       </div>
@@ -258,13 +305,15 @@
   </div>
 
   <script>
-    let airdropPct = 15;
-    let fdv = 300;
+    let airdropPct = 10;
+    let fdv = 100;
+    const totalPoints = 3000000;
 
     function setAirdrop(pct) {
       airdropPct = pct;
       document.querySelectorAll('#airdropGroup .btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
+      document.getElementById('selectedAirdrop').textContent = pct + '%';
       calculate();
     }
 
@@ -272,6 +321,9 @@
       fdv = value;
       document.querySelectorAll('#fdvGroup .btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
+
+      let label = value >= 1000 ? '$1B' : `$${value}M`;
+      document.getElementById('selectedFDV').textContent = label;
       calculate();
     }
 
@@ -282,7 +334,6 @@
     }
 
     function calculate() {
-      const totalPoints = parseFloat(document.getElementById('totalPoints').value) || 1;
       const yourPoints = parseFloat(document.getElementById('yourPoints').value) || 0;
 
       const fdvDollars = fdv * 1_000_000;
@@ -293,6 +344,7 @@
       document.getElementById('pointPrice').textContent = formatMoney(pointPrice);
       document.getElementById('yourValue').textContent = formatMoney(yourAirdropValue);
 
+      // Tabla de escenarios
       const scenarios = [10, 15, 20, 25];
       const fdvs = [100, 300, 500, 800, 1000];
       let html = '';
@@ -309,6 +361,7 @@
       document.getElementById('scenarioTable').innerHTML = html;
     }
 
+    // Inicializar
     calculate();
   </script>
 </body>
