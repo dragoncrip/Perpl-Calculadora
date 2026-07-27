@@ -38,6 +38,7 @@
     .logo-perpl {
       height: 42px;
       width: auto;
+      filter: brightness(0) invert(1); /* convierte el logo negro a blanco */
     }
 
     .logo-dc {
@@ -46,6 +47,11 @@
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #333;
+      transition: opacity 0.2s;
+    }
+
+    .logo-dc:hover {
+      opacity: 0.8;
     }
 
     h1 {
@@ -59,7 +65,7 @@
 
     .register-boost {
       text-align: center;
-      margin-bottom: 18px;
+      margin-bottom: 32px;
       font-size: 15px;
     }
 
@@ -70,25 +76,6 @@
     }
 
     .register-boost a:hover {
-      text-decoration: underline;
-    }
-
-    /* Texto de farmear centrado en 2 líneas */
-    .farm-promo {
-      text-align: center;
-      margin-bottom: 32px;
-      font-size: 15px;
-      line-height: 1.5;
-      color: #ccc;
-    }
-
-    .farm-promo a {
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .farm-promo a:hover {
       text-decoration: underline;
     }
 
@@ -288,6 +275,24 @@
       background: #1a1a1a;
       padding: 16px;
       border-radius: 12px;
+      text-align: center; /* centrado */
+    }
+
+    .formula a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .formula a:hover {
+      text-decoration: underline;
+    }
+
+    .farm-text {
+      margin-top: 14px;
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.5;
     }
 
     .footer {
@@ -314,7 +319,9 @@
     <!-- Header con logos -->
     <div class="header">
       <img src="Perpl_Logo_Primary_Black.svg" alt="Perpl Logo" class="logo-perpl">
-      <img src="Logo_DC.jpg" alt="DragonCrip" class="logo-dc">
+      <a href="https://x.com/DragonCrip" target="_blank">
+        <img src="Logo_DC.jpg" alt="DragonCrip" class="logo-dc">
+      </a>
     </div>
 
     <h1>PERPL Points<br>Airdrop Calculator</h1>
@@ -322,12 +329,6 @@
     <p class="register-boost">
       ⭐ <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">Register for +5% extra boost</a>
     </p>
-
-    <!-- Texto de farmear centrado en 2 líneas (sacado del recuadro) -->
-    <div class="farm-promo">
-      No tenes cuenta en Perpl?<br>
-      <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">comenza a farmear ahora +5% extra boost</a>
-    </div>
 
     <div class="main">
       <!-- LEFT: INPUTS -->
@@ -357,10 +358,15 @@
           <button class="btn" onclick="setFDV(1000)">$1B</button>
         </div>
 
-        <!-- Solo la fórmula, sin el texto de farmear -->
+        <!-- Fórmula centrada + texto de farmear debajo -->
         <div class="formula">
           Precio del punto = (FDV × Airdrop %) ÷ 3.000.000<br>
           Tu valor = Tus puntos × Precio del punto
+          
+          <div class="farm-text">
+            No tenes cuenta en Perpl?<br>
+            <a href="https://app.perpl.xyz/trade?ref=48DeNZhWs2x" target="_blank">comenza a farmear ahora +5% extra boost</a>
+          </div>
         </div>
       </div>
 
